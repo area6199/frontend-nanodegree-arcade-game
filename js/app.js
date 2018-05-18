@@ -8,14 +8,17 @@ class Enemy {
     }
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
-    update(dt) {
+    update(dt, xUp = 0, yUp = 0) {
+
+        this.x += xUp;
+        this.y += yUp;
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
     }
 
     // Draw the enemy on the screen, required method for game
-    render(x = 0, y = 0){
+    render(x = 0, y = 0) {
         // console.log("enemy render x: " + x +", y: "+ y);
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
@@ -48,24 +51,54 @@ class Enemy {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-class Player{
-    constructor(x = 210, y= 400){
+class Player {
+    constructor(x = 200, y = 400) {
         this.sprite = 'images/char-boy.png';
         this.x = x;
         this.y = y;
     }
 
-    update(){
+    update(dt, xUp = 0, yUp = 0) {
+
+
+        if ((xUp>0 && this.x < 400) || (xUp<0 && this.x >0)) {
+            this.x += xUp;
+        }
+     
+        if ((yUp>0 && this.y < 400) || (yUp<0 && this.y >-15)) {
+            this.y += yUp;
+        }
 
     }
-    render(){
-        
+    render() {
+
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-        var img=document.createElement('img');
+        var img = document.createElement('img');
 
     }
-    handleInput(){
-        
+    handleInput(movement) {
+        switch (movement) {
+            case 'left':
+                player.update(0, -100, 0);
+                break;
+
+            case 'up':
+                player.update(0, 0, -83);
+                break;
+
+            case 'right':
+                player.update(0, 100, 0);
+                break;
+
+            case 'down':
+                player.update(0, 0, 83);
+                break;
+
+            default:
+                player.update(0, 0, 0);
+                break;
+        }
+
     }
 
 }
@@ -83,7 +116,7 @@ const enemy6 = new Enemy();
 
 
 // Place all enemy objects in an array called allEnemies
-const allEnemies = [enemy1,enemy2,enemy3,enemy4,enemy5,enemy6];
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
 // Place the player object in a variable called player
 const player = new Player();
 
