@@ -1,17 +1,27 @@
 // Enemies our player must avoid
 class Enemy {
-    constructor(x = 0, y = 60) {
+    constructor(x = -200, y = 60) {
         this.sprite = 'images/enemy-bug.png';
         this.x = x;
-        this.y = y;
+        var myArray = [60, 140, 220];    
+        this.y = myArray[Math.floor(Math.random() * myArray.length)];;
+        this.speed = Math.random()*100;
 
     }
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
-    update(dt, xUp = 0, yUp = 0) {
+    update(dt) {
 
-        this.x += xUp;
-        this.y += yUp;
+        this.x += this.speed*dt;
+
+        // resets enemy position
+        if (this.x>500) {
+            this.x = -200;
+        }
+
+        
+        
+        
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
